@@ -29,7 +29,7 @@ func ParseSnowflake(s string) (Snowflake, error) {
 	}
 	sf := Snowflake(v)
 	if sf.Time().UnixMilli() <= DiscordEpochShift {
-		return 0, ErrIsNotMention
+		return 0, ErrSnowflakeFormat
 	}
 	return sf, nil
 }
