@@ -31,11 +31,14 @@ func (sf Snowflake) Time() time.Time {
 }
 
 func (sf Snowflake) FormatTime() string {
-	ft := sf.Time().Format(defaultDiscordTimeFormat)
+	return sf.Time().Format(defaultDiscordTimeFormat)
+}
+
+func (sf Snowflake) DescribeTime() string {
 	if sf == 0 {
-		return ft + " - id value is 0 (discord epoch start)"
+		return "id value is 0 (discord epoch start)"
 	}
-	return ft
+	return sf.FormatTime()
 }
 
 func (sf Snowflake) WorkerID() uint8 {
