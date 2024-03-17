@@ -8,6 +8,8 @@ import (
 
 var ErrIsNotMention = errors.New("is not a valid mention")
 
+var prefixedMentionRegexp = regexp.MustCompile(`(?m)^(@|@!|#|@&)(\d+)$`)
+
 const (
 	MentionTypeRole = iota + 1
 	MentionTypeUser
@@ -68,9 +70,7 @@ func detectMention(s string) (m *DiscordMention, err error) {
 	}
 	s = strings.Trim(s, "<>")
 
-	matches := regexp.
-		MustCompile(`(?m)^(@|@!|#|@&)(\d+)$`).
-		FindAllStringSubmatch(s, -1)
+	matches := prefixedMentionRegexp.FindAllStringSubmatch(s, -1)
 
 	if len(matches) != 0 {
 		match := matches[0]
