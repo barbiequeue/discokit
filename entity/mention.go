@@ -1,3 +1,4 @@
+// Package entity provides structures and functions to work with Discord entities.
 package entity
 
 import (
@@ -6,6 +7,7 @@ import (
 	"strings"
 )
 
+// ErrIsNotMention signifies an error when a string does not conform to a valid mention format.
 var ErrIsNotMention = errors.New("is not a valid mention")
 
 var prefixedMentionRegexp = regexp.MustCompile(`(?m)^(@|@!|#|@&)(\d+)$`)
@@ -22,6 +24,7 @@ const (
 	MentionTypeCustomEmojiAnimated
 )
 
+// MentionType defines the various types of mentions that can be recognized in Discord.
 type MentionType int
 
 var mentionTypeNames = map[MentionType]string{
@@ -36,6 +39,7 @@ var mentionTypeNames = map[MentionType]string{
 	MentionTypeCustomEmojiAnimated: "emoji_animate",
 }
 
+// String returns the string representation of the MentionType.
 func (t MentionType) String() string {
 	n, ok := mentionTypeNames[t]
 	if !ok {
@@ -51,6 +55,7 @@ var mentionTypeMapping = map[string]MentionType{
 	"#":  MentionTypeChannel,
 }
 
+// DiscordMention represents a mention within Discord, including its type and ID.
 type DiscordMention struct {
 	Type MentionType
 	ID   Snowflake
