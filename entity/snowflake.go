@@ -33,6 +33,12 @@ func ParseSnowflake(s string) (Snowflake, error) {
 	return sf, nil
 }
 
+// GenerateSnowflake computes a Snowflake ID from a given timestamp, aligning with Discord's format.
+// It adjusts the timestamp by Discord's epoch offset and encodes it into a 64-bit unsigned integer.
+func GenerateSnowflake(timestamp time.Time) Snowflake {
+	return Snowflake((timestamp.UnixMilli() - discord.EpochBeginning) << 22)
+}
+
 // Time converts a Snowflake to a time.Time value, representing the time when the snowflake was created.
 func (sf Snowflake) Time() time.Time {
 	ts := (sf >> 22) + discord.EpochBeginning
