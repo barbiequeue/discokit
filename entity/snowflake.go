@@ -5,11 +5,10 @@ import (
 	"errors"
 	"strconv"
 	"time"
+
+	"github.com/barbiequeue/discokit/discord"
 )
 
-// DiscordEpochShift represents the number of milliseconds that
-// have elapsed since the Discord Epoch (2015-01-01T00:00:00Z).
-const DiscordEpochShift = 1420070400000
 const defaultDiscordTimeFormat = time.RFC3339
 
 // ErrSnowflakeFormat signals an error when parsing a string
@@ -28,7 +27,7 @@ func ParseSnowflake(s string) (Snowflake, error) {
 		return 0, ErrSnowflakeFormat
 	}
 	sf := Snowflake(v)
-	if sf.Time().UnixMilli() <= DiscordEpochShift {
+	if sf.Time().UnixMilli() <= discord.EpochBeginning {
 		return 0, ErrSnowflakeFormat
 	}
 	return sf, nil
@@ -36,7 +35,7 @@ func ParseSnowflake(s string) (Snowflake, error) {
 
 // Time converts a Snowflake to a time.Time value, representing the time when the snowflake was created.
 func (sf Snowflake) Time() time.Time {
-	ts := (sf >> 22) + DiscordEpochShift
+	ts := (sf >> 22) + discord.EpochBeginning
 	return time.UnixMilli(int64(ts))
 }
 
