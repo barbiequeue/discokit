@@ -9,8 +9,6 @@ import (
 	"github.com/barbiequeue/discokit/discord"
 )
 
-const defaultDiscordTimeFormat = time.RFC3339
-
 // ErrSnowflakeFormat signals an error when parsing a string
 // into a Snowflake fails due to the string not adhering to the expected format.
 var ErrSnowflakeFormat = errors.New("discord snowflake format error")
@@ -48,7 +46,7 @@ func (sf Snowflake) Time() time.Time {
 // FormatTime returns a string representation of the time when the snowflake was created,
 // formatted according to the default Discord time format.
 func (sf Snowflake) FormatTime() string {
-	return sf.Time().Format(defaultDiscordTimeFormat)
+	return sf.Time().Format(discord.DefaultTimeFormat)
 }
 
 // DescribeTime provides a human-readable description of the snowflake's creation time.
