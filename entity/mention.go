@@ -4,7 +4,9 @@ package entity
 import (
 	"errors"
 	"regexp"
+	"strconv"
 	"strings"
+	"time"
 )
 
 // ErrIsNotMention signifies an error when a string does not conform to a valid mention format.
@@ -151,4 +153,134 @@ func detectMention(s string) (m *DiscordMention, err error) {
 	}
 
 	return nil, ErrIsNotMention
+}
+
+func (m DiscordMention) DiscordString() string {
+	failedContent := "unknown-mention-type"
+
+	if m.Meta == nil {
+		m.Meta = make(map[string]string)
+	}
+
+	s := strings.Builder{}
+	s.WriteString("<")
+	switch m.Type {
+	case MentionTypeRole:
+		s.WriteString("@&" + m.ID.String())
+	case MentionTypeUser:
+		s.WriteString("@" + m.ID.String())
+	case MentionTypeChannel:
+		s.WriteString("#" + m.ID.String())
+	case MentionTypeSlashCommand:
+		cmdName, ok := m.Meta["command"]
+		if !ok {
+			s.WriteString(failedContent)
+			break
+		}
+		s.WriteString("/" + cmdName + ":" + m.ID.String())
+	case MentionTypeTimestamp:
+		ts, ok := m.Meta["timestamp"]
+		if !ok {
+			s.WriteString(failedContent)
+			break
+		}
+		s.WriteString("t:" + ts)
+	case MentionTypeTimestampStyled:
+		ts, tsOk := m.Meta["timestamp"]
+		st, styleOk := m.Meta["style"]
+		if !tsOk || !styleOk {
+			s.WriteString(failedContent)
+			break
+		}
+		s.WriteString("t:" + ts + ":" + st)
+	case MentionTypeGuildNavigation:
+		t, ok := m.Meta["guild_navigation_type"]
+		if !ok {
+			s.WriteString(failedContent)
+			break
+		}
+		s.WriteString("id:" + t)
+	case MentionTypeCustomEmoji:
+		n, ok := m.Meta["emoji_name"]
+		if !ok {
+			s.WriteString(failedContent)
+			break
+		}
+		s.WriteString(":" + m.ID.String() + ":" + n)
+	case MentionTypeCustomEmojiAnimated:
+		n, ok := m.Meta["emoji_name"]
+		if !ok {
+			s.WriteString(failedContent)
+			break
+		}
+		s.WriteString("a:" + m.ID.String() + ":" + n)
+	default:
+		s.WriteString(failedContent)
+	}
+	s.WriteString(">")
+
+	return s.String()
+}
+
+func UserMention(sf Snowflake) DiscordMention {
+	return DiscordMention{
+		Type: MentionTypeUser,
+		ID:   sf,
+	}
+}
+
+func RoleMention(sf Snowflake) DiscordMention {
+	return DiscordMention{
+		Type: MentionTypeRole,
+		ID:   sf,
+	}
+}
+
+func ChannelMention(sf Snowflake) DiscordMention {
+	return DiscordMention{
+		Type: MentionTypeChannel,
+		ID:   sf,
+	}
+}
+
+func EmojiMention(sf Snowflake, name string) DiscordMention {
+	return DiscordMention{
+		Type: MentionTypeCustomEmoji,
+		ID:   sf,
+		Meta: map[string]string{"emoji_name": name},
+	}
+}
+
+func AnimatedEmojiMention(sf Snowflake, name string) DiscordMention {
+	m := EmojiMention(sf, name)
+	m.Type = MentionTypeCustomEmojiAnimated
+	return m
+}
+
+func TimestampMention(t time.Time, style ...string) DiscordMention {
+	m := DiscordMention{
+		Type: MentionTypeTimestamp,
+		Meta: map[string]string{"timestamp": strconv.Itoa(t.Second())},
+	}
+	if len(style) != 0 {
+		m.Type = MentionTypeCustomEmojiAnimated
+		m.Meta["style"] = style[0]
+	}
+
+	return m
+}
+
+func SlashCommandMention(sf Snowflake, command string) DiscordMention {
+	return DiscordMention{
+		Type: MentionTypeSlashCommand,
+		ID:   sf,
+		Meta: map[string]string{"command": command},
+	}
+}
+
+func GuildNavigationMention(navigationType string) DiscordMention {
+	return DiscordMention{
+		Type: MentionTypeGuildNavigation,
+		Meta: map[string]string{"guild_navigation_type": navigationType},
+	}
 }
