@@ -96,6 +96,12 @@ func NewEmbedBuilder() *Builder {
 	}
 }
 
+// Reset renew the underlying embed for avoid cases when you don't need to create new builder
+func (b *Builder) Reset() *Builder {
+	b.embed = &discordgo.MessageEmbed{}
+	return b
+}
+
 func (b *Builder) Type(embedType string) *Builder {
 	b.embed.Type = discordgo.EmbedType(embedType)
 	return b
@@ -277,8 +283,3 @@ func (b *Builder) LimitExceeds() []string {
 }
 
 func (b *Builder) Build() *discordgo.MessageEmbed { return b.embed }
-
-func (b *Builder) Reset() *Builder {
-	b.embed = &discordgo.MessageEmbed{}
-	return b
-}
