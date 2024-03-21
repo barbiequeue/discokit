@@ -11,5 +11,5 @@ func Inline(message string, color ...int) *discordgo.MessageEmbed {
 		c = color[0]
 	}
 
-	return NewEmbedBuilder().Title(message).Color(c).Build()
+	return NewBuilder().Title(message).Color(c).Build()
 }

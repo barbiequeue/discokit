@@ -28,7 +28,7 @@ const (
 //
 // Example 1:
 //
-//	eb := NewEmbedBuilder().
+//	eb := embed.NewBuilder().
 //		Image("https://example.com/img/fh982h93.jpg", "", 0, 0).
 //		FooterSimple("Look at this awesome picture!")
 //
@@ -42,7 +42,7 @@ const (
 //
 // Example 2:
 //
-//	eb := NewEmbedBuilder().
+//	eb := embed.NewBuilder().
 //		Image("https://example.com/img/fh982h93.jpg", "", 0, 0).
 //		FooterSimple("Look at this awesome picture!")
 //	if !eb.InLimits() {
@@ -79,9 +79,9 @@ const (
 	TypeLink    = "link"
 )
 
-// NewEmbedBuilder creates new embed builder with underlying embed and limits
+// NewBuilder creates new embed builder with underlying embed and limits
 // Default underlying embed has default type `rich` and color `#ffffff`
-func NewEmbedBuilder() *Builder {
+func NewBuilder() *Builder {
 	return &Builder{
 		embed: &discordgo.MessageEmbed{
 			Type:  TypeRich,

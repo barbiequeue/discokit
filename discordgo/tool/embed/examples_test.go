@@ -2,13 +2,14 @@ package embed
 
 import (
 	"fmt"
+
 	"github.com/bwmarrin/discordgo"
 )
 
 func ExampleNewEmbedBuilder() {
 	s := discordgo.Session{}
 
-	eb := NewEmbedBuilder().
+	eb := NewBuilder().
 		Image("https://example.com/img/fh982h93.jpg", "", 0, 0).
 		FooterSimple("Look at this awesome picture!")
 
@@ -20,7 +21,7 @@ func ExampleNewEmbedBuilder() {
 func ExampleNewEmbedBuilderWithLimitsCheck() {
 	s := discordgo.Session{}
 
-	eb := NewEmbedBuilder().
+	eb := NewBuilder().
 		Image("https://example.com/img/fh982h93.jpg", "", 0, 0).
 		FooterSimple("Look at this awesome picture!")
 
