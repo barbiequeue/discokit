@@ -9,13 +9,6 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-func InlineEmbed(message string, color int) *discordgo.MessageEmbed {
-	return &discordgo.MessageEmbed{
-		Title: message,
-		Color: color,
-	}
-}
-
 const (
 	limitTotal       = 6000
 	limitTitle       = 256
