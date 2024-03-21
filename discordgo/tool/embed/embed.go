@@ -277,3 +277,8 @@ func (b *Builder) LimitExceeds() []string {
 }
 
 func (b *Builder) Build() *discordgo.MessageEmbed { return b.embed }
+
+func (b *Builder) Reset() *Builder {
+	b.embed = &discordgo.MessageEmbed{}
+	return b
+}
