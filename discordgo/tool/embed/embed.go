@@ -35,13 +35,13 @@ const (
 //
 // Example 1:
 //
-//	 eb := NewEmbedBuilder().
-//			Image("https://example.com/img/fh982h93.jpg", "", 0, 0).
-//			FooterSimple("Look at this awesome picture!")
+//	eb := NewEmbedBuilder().
+//		Image("https://example.com/img/fh982h93.jpg", "", 0, 0).
+//		FooterSimple("Look at this awesome picture!")
 //
-//		if _, err := s.ChannelMessageSendEmbed("92963946923497253235", eb.Build()); err != nil {
-//			fmt.Println("Failed to send message with embed:", err)
-//		}
+//	if _, err := s.ChannelMessageSendEmbed("92963946923497253235", eb.Build()); err != nil {
+//		fmt.Println("Failed to send message with embed:", err)
+//	}
 //
 // ------------------------------
 //
@@ -49,20 +49,20 @@ const (
 //
 // Example 2:
 //
-//	 eb := NewEmbedBuilder().
-//			Image("https://example.com/img/fh982h93.jpg", "", 0, 0).
-//			FooterSimple("Look at this awesome picture!")
-//		if !eb.InLimits() {
-//			fmt.Println("Failed to build discord embed")
-//		}
-//		for _, exceed := range eb.LimitExceeds() {
-//			fmt.Println("Embed exceeded limit:", exceed)
-//		}
-//		em := eb.Build()
+//	eb := NewEmbedBuilder().
+//		Image("https://example.com/img/fh982h93.jpg", "", 0, 0).
+//		FooterSimple("Look at this awesome picture!")
+//	if !eb.InLimits() {
+//		fmt.Println("Failed to build discord embed")
+//	}
+//	for _, exceed := range eb.LimitExceeds() {
+//		fmt.Println("Embed exceeded limit:", exceed)
+//	}
+//	em := eb.Build()
 //
-//		if _, err := s.ChannelMessageSendEmbed("92963946923497253235", em); err != nil {
-//			fmt.Println("Failed to send message with embed:", err)
-//		}
+//	if _, err := s.ChannelMessageSendEmbed("92963946923497253235", em); err != nil {
+//		fmt.Println("Failed to send message with embed:", err)
+//	}
 type Builder struct {
 	limitsExceeds []string
 	embed         *discordgo.MessageEmbed
