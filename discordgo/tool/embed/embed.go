@@ -54,10 +54,11 @@ const (
 //		FooterSimple("Look at this awesome picture!")
 //	if !eb.InLimits() {
 //		fmt.Println("Failed to build discord embed")
+//		for _, exceed := range eb.LimitExceeds() {
+//			fmt.Println("Embed exceeded limit:", exceed)
+//		}
 //	}
-//	for _, exceed := range eb.LimitExceeds() {
-//		fmt.Println("Embed exceeded limit:", exceed)
-//	}
+//
 //	em := eb.Build()
 //
 //	if _, err := s.ChannelMessageSendEmbed("92963946923497253235", em); err != nil {
