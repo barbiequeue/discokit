@@ -1,11 +1,12 @@
 package embed
 
 import (
-	"github.com/barbiequeue/discokit/discordgo/tool"
-	"github.com/bwmarrin/discordgo"
 	"strconv"
 	"time"
 	"unicode/utf8"
+
+	"github.com/barbiequeue/discokit/discordgo/tool"
+	"github.com/bwmarrin/discordgo"
 )
 
 func InlineEmbed(message string, color int) *discordgo.MessageEmbed {
